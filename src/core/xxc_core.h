@@ -9,6 +9,7 @@
 #define XXC_OK          0   
 #define XXC_ERROR      -1
 
+#include <xxc_string.h>
 #include <xxc_times.h>
 
 #endif /* _XXC_CORE_H_INCLUDED_ */

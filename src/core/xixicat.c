@@ -9,5 +9,14 @@ int xxc_cdecl main(int argc, char* argv[]) {
     xxc_int_t  t = 12;
     printf("n = %ld\n", t);
     printf("xixicat's version is %s\n", xixicat_version);
+
+    printf("t up is %c\n", xxc_toupper('t'));
+    printf("T lower is %c\n", xxc_toupper('T'));
+    xxc_str_t src = xxc_string("hello xixicat!");
+    u_char *dst = (u_char*)malloc(sizeof(u_char) * 20);
+    printf("src data is %s\n len is %ld\n", src.data,src.len);
+    xxc_strup(dst, src.data, src.len);
+    printf("dst is %s\n", dst);
+    
     return XXC_OK;
 }
