@@ -36,9 +36,15 @@ u_char* xxc_cdecl xxc_sprintf(u_char* buf, const char* fmt, ...){
     va_end(args);
     return p;
 }
-// TO DO
+
 u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
-    xxc_str_t  str = xxc_string("hello string!");
-    sprintf((char*)buf,fmt, str.data, str.data);
+    
+    while(*fmt && buf < last){
+        if(*fmt == '%'){
+            // TO DO
+        }else{
+            *buf++ = *fmt++;
+        }
+    }
     return buf;
 }
