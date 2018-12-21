@@ -6,7 +6,8 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/src/core/",
                 "${workspaceFolder}/src/os/linux/",
-                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include",
+                "/Library/Developer/CommandLineTools/Library/PrivateFrameworks/LLDB.framework/Versions/A/Resources/Clang/include"
             ],
             "defines": [],
             "macFrameworkPath": [

@@ -5,3 +5,4 @@
 
 ### build
  * clang  src/core/xixicat.c -I src/core/ -I src/os/linux  -o src/test/test
+ * clang  src/core/xixicat.c src/core/xxc_string.c -I src/core/ -I src/os/linux  -o src/test/test
