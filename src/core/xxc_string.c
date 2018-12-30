@@ -24,8 +24,23 @@ void xxc_strup(u_char *dst, u_char *src, size_t n){
 
 /*
  * supported formats:
- * 
- * 
+ *    %[0][width][u][x|X]z         ssize_t/size_t
+ *    %[0][width][u][x|X]d         int/u_int
+ *    %[0][width][u][x|X]l         long
+ *    %[0][width][u][x|X]i         xxc_int_t/xxc_uint_t
+ *    %[0][width][u][x|X]D         int32_t/uint32_t
+ *    %[0][width][u][x|X]L         int64_t/uint64_t
+ *    %[0][width][.width]f         double
+ *    %[0][width]T                 time_t
+ *    %M                           xxc_msec_t
+ *    %p                           void*
+ *    %V                           xxc_str_t*
+ *    %s                           null-terminated string
+ *    %*s                          length and string
+ *    %Z                           '\0'
+ *    %N                           '\n'
+ *    %c                           char
+ *    %%                            %
  */
 /** (void*) -1 = 0xFFFFFFFF */
 u_char* xxc_cdecl xxc_sprintf(u_char* buf, const char* fmt, ...){
@@ -38,10 +53,75 @@ u_char* xxc_cdecl xxc_sprintf(u_char* buf, const char* fmt, ...){
 }
 
 u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
-    
+    u_char      *p, zero;
+    int          d;
+    double       f;
+    int64_t      i64;
+    uint64_t     ui64;
+    size_t       len, slen;
+    xxc_int_t    width, frac_width, hex;
     while(*fmt && buf < last){
+        /**
+         *@brief: 字符串处理-格式化处理 如果碰到'%'进行处理
+         *        处理逻辑要支持 以上格式
+         *        1: 判断填充方式
+         *        2: 判断宽度
+         */
         if(*fmt == '%'){
-            // TO DO
+            i64 = 0;
+            ui64 = 0;
+            zero = (u_char)((*++fmt == '0') ? '0' : ' ');
+            /**
+             *@param: width         填充宽度
+             *@param: frac_width    精度宽度
+             *@param; hex  1 = 'x'  2 = 'X'
+             */
+            width = 0;
+            frac_width = 0;
+            while(*fmt >= '0' && *fmt <= '9'){
+                width = width * 10 + *fmt++ - '0';
+            }
+            /**
+             *@brief: 处理修饰符
+             */
+            for( ;; ){
+                switch(*fmt){
+                    case 'u':
+                        continue;
+                    case 'x':
+                        continue;
+                    case 'X':
+                        continue;
+                    case '.':
+                        continue;
+                    case '*':
+                        continue;
+                    default:
+                        break;
+                    
+                }
+            }
+
+            switch(*fmt){
+                case 'z':
+                case 'd':
+                case 'l':
+                case 'i':
+                case 'D':
+                case 'L':
+                case 'f':
+                case 'T':
+                case 'M':
+                case 'p':
+                case 'V':
+                case 's':
+                case 'Z':
+                case 'N':
+                case 'c':
+                case '%':
+                default:
+                    *buf++ = *fmt++;
+            }
         }else{
             *buf++ = *fmt++;
         }

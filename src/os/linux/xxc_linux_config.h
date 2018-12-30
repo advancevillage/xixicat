@@ -12,5 +12,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stddef.h>
+#include <ctype.h>
+
+#include <sys/vfs.h> 
 
 #endif /* _XXC_LINUX_CONFIG_H_INCLUDED_ */
