@@ -59,7 +59,7 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
     int64_t      i64;
     uint64_t     ui64;
     size_t       len, slen;
-    xxc_int_t    width, frac_width, hex;
+    xxc_int_t    width, frac_width, hex, sign;
     while(*fmt && buf < last){
         /**
          *@brief: 字符串处理-格式化处理 如果碰到'%'进行处理
@@ -72,12 +72,15 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
             ui64 = 0;
             zero = (u_char)((*++fmt == '0') ? '0' : ' ');
             /**
-             *@param: width         填充宽度
-             *@param: frac_width    精度宽度
+             *@param: width         填充宽度,默认是0
+             *@param: frac_width    精度宽度,默认是0
              *@param; hex  1 = 'x'  2 = 'X'
+             *@parma: sign          符号标志位,默认是有符号
+             *@parma: slen          设定字符串宽度
              */
             width = 0;
             frac_width = 0;
+            sign = 1;
             while(*fmt >= '0' && *fmt <= '9'){
                 width = width * 10 + *fmt++ - '0';
             }
@@ -87,19 +90,33 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
             for( ;; ){
                 switch(*fmt){
                     case 'u':
+                        sign = 0;
+                        fmt++;
                         continue;
                     case 'x':
+                        sign = 0;
+                        hex = 1;
+                        fmt++;
                         continue;
                     case 'X':
+                        sign = 0;
+                        hex = 2;
+                        fmt++;
                         continue;
                     case '.':
-                        continue;
+                        fmt++;
+                        while (*fmt >= '0' && *fmt <= '9') {
+                            frac_width = frac_width * 10 + *fmt++ - '0';
+                        }
+                        break;
                     case '*':
+                        slen = va_arg(args, size_t);
+                        fmt++;
                         continue;
                     default:
                         break;
-                    
                 }
+                break;
             }
 
             switch(*fmt){
