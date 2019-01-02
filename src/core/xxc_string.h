@@ -42,6 +42,15 @@ void xxc_strlow(u_char *dst, u_char *src, size_t n);
 void xxc_strup(u_char *dst, u_char *src, size_t n);
 
 /**
+ *@breif: 字符串拷贝
+ *@param: dst
+ *@param: src
+ *@param: n
+ *@retval: dst+n
+ */
+#define xxc_cpymem(dst, src, n)   (((u_char *) memcpy(dst, src, n)) + (n))
+
+/**
  *@brief: 将格式化字符串转储到字符串中
  *@param: buf 字符串指针
  *@param: fmt 格式化

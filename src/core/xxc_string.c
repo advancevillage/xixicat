@@ -60,6 +60,7 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
     uint64_t     ui64;
     size_t       len, slen;
     xxc_int_t    width, frac_width, hex, sign;
+    xxc_str_t   *v;
     while(*fmt && buf < last){
         /**
          *@brief: 字符串处理-格式化处理 如果碰到'%'进行处理
@@ -131,6 +132,11 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
                 case 'M':
                 case 'p':
                 case 'V':
+                    v = va_arg(args, xxc_str_t *);
+                    len = xxc_min((size_t)(last - buf), v->len);
+                    buf = xxc_cpymem(buf, v->data, len);
+                    fmt++;
+                    continue;
                 case 's':
                 case 'Z':
                 case 'N':

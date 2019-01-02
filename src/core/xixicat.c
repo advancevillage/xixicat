@@ -22,7 +22,7 @@ int xxc_cdecl main(int argc, char* argv[]) {
     xxc_str_t richard = xxc_string("richard");
     xxc_str_t kelly = xxc_string("kelly");
     u_char buf[100];
-    xxc_sprintf(buf, "%s love %s forever", richard, kelly);
+    xxc_sprintf(buf, "%V", &src);
     printf("%s\n", buf);
     return XXC_OK;
 }
