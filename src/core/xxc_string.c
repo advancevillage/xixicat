@@ -122,9 +122,21 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
 
             switch(*fmt){
                 case 'z':
+                    if(sign){
+                        i64 = va_arg(args, ssize_t);
+                    }else{
+                        ui64 = va_arg(args, size_t);
+                    }
+                    break;
                 case 'd':
                 case 'l':
                 case 'i':
+                    if(sign){
+                        i64 = (int64_t)va_arg(args, xxc_int_t);
+                    }else{
+                        ui64 = (uint64_t)va_arg(args, xxc_uint_t);
+                    }
+                    break;
                 case 'D':
                 case 'L':
                 case 'f':
