@@ -19,4 +19,10 @@
 #define xxc_max(val1, val2)  ((val1 < val2) ? (val2) : (val1))
 #define xxc_min(val1, val2)  ((val1 > val2) ? (val2) : (val1))
 
+/**
+ *@breif: 换行和回撤
+ */
+#define LF     (u_char) '\n'
+#define CR     (u_char) '\r'
+
 #endif /* _XXC_CORE_H_INCLUDED_ */

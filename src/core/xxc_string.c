@@ -123,13 +123,25 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
             switch(*fmt){
                 case 'z':
                     if(sign){
-                        i64 = va_arg(args, ssize_t);
+                        i64 = (int64_t) va_arg(args, ssize_t);
                     }else{
-                        ui64 = va_arg(args, size_t);
+                        ui64 = (uint64_t) va_arg(args, size_t);
                     }
                     break;
                 case 'd':
+                    if(sign){
+                        i64 = (int64_t) va_arg(args, int);
+                    }else{
+                        ui64 = (uint64_t) va_arg(args, u_int);
+                    }
+                    break;
                 case 'l':
+                    if(sign){
+                        i64 = (int64_t]) va_arg(args, long);
+                    }else{
+                        ui64 = (uint64_t) va_arg(args, u_long);
+                    }
+                    break;
                 case 'i':
                     if(sign){
                         i64 = (int64_t)va_arg(args, xxc_int_t);
@@ -138,11 +150,32 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
                     }
                     break;
                 case 'D':
+                    if(sign){
+                        i64 = (int64_t) va_arg(args, int32_t);
+                    }else{
+                        ui64 = (uint64_t) va_arg(args, uint32_t);
+                    }
+                    break;
                 case 'L':
+                    if(sign){
+                        i64 = va_arg(args, int64_t);
+                    }else{
+                        ui64 = va_args(args, uint64_t);
+                    }
+                    break;
                 case 'f':
                 case 'T':
+                    i64 = (int64_t) va_arg(args, time_t);
+                    sign = 1;
+                    break;
                 case 'M':
                 case 'p':
+                    ui64 = (uintptr_t) va_arg(args, void *);
+                    hex = 2;
+                    sign = 0;
+                    zero = '0';
+                    width = 2 * sizeof(void *);
+                    break;
                 case 'V':
                     v = va_arg(args, xxc_str_t *);
                     len = xxc_min((size_t)(last - buf), v->len);
@@ -151,9 +184,22 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
                     continue;
                 case 's':
                 case 'Z':
+                    *buf++ = '\0';
+                    fmt++;
+                    continue;
                 case 'N':
+                    *buf++ = LF;
+                    fmt++;
+                    continue;
                 case 'c':
+                    d = va_arg(args, int);
+                    *buf++ = (u_char) (d & 0xff);
+                    fmt++;
+                    continue;
                 case '%':
+                    *buf++ = '%';
+                    fmt++;
+                    continue;
                 default:
                     *buf++ = *fmt++;
             }
