@@ -137,7 +137,7 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
                     break;
                 case 'l':
                     if(sign){
-                        i64 = (int64_t]) va_arg(args, long);
+                        i64 = (int64_t) va_arg(args, long);
                     }else{
                         ui64 = (uint64_t) va_arg(args, u_long);
                     }
@@ -160,7 +160,7 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
                     if(sign){
                         i64 = va_arg(args, int64_t);
                     }else{
-                        ui64 = va_args(args, uint64_t);
+                        ui64 = va_arg(args, uint64_t);
                     }
                     break;
                 case 'f':
