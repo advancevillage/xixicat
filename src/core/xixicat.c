@@ -24,5 +24,9 @@ int xxc_cdecl main(int argc, char* argv[]) {
     u_char buf[100];
     xxc_sprintf(buf, "%V", &src);
     printf("%s\n", buf);
+    xxc_sprintf(buf,"xxc_int_t is %i", t);
+    printf("%s\n", buf);
+    xxc_sprintf(buf, "%%\n");
+    printf("%s\n", buf);
     return XXC_OK;
 }
