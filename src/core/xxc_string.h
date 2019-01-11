@@ -60,4 +60,15 @@ u_char* xxc_cdecl xxc_sprintf(u_char *buf, const char *fmt, ...);
 
 u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args);
 
+/**
+ *@breif: 将数值存储到字符串中
+ *@param: buf  字符串指针
+ *@param: last 最大地址(可存储的字符的个数)
+ *@param: ui64 
+ *@param: zero 填充空格或'0'
+ *@param: hexadecimal
+ *@param: width
+ */
+static u_char* xxc_sprintf_num(u_char *buf, u_char *last, uint64_t ui64, u_char zero, xxc_uint_t hexadecimal, ngx_uint_t width);
+
 #endif /* _XXC_STRING_H_INCLUDED_ */

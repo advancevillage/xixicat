@@ -206,6 +206,56 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
         }else{
             *buf++ = *fmt++;
         }
+        if (sign) {
+            if (i64 < 0) {
+                *buf++ = '-';
+                ui64 = (uint64_t) -i64;
+            } else {
+                ui64 = (uint64_t) i64;
+            }
+        }
+        buf = xxc_sprintf_num(buf, last, ui64, zero, hex, width);
+        fmt++;
     }
     return buf;
+}
+
+static u_char* xxc_sprintf_num(u_char *buf, u_char *last, uint64_t ui64, u_char zero, xxc_uint_t hexadecimal, ngx_uint_t width){
+    /**@breif: 64bit */
+    u_char         *p, temp[XXC_INT64_LEN+1];
+    size_t          len;
+    uint32_t        ui32;
+    static u_char   hex[] = "0123456789abcdef";
+    static u_char   HEX[] = "0123456789ABCDEF";
+    p = temp + XXC_INT64_LEN;
+    if(hexadecimal == 0){
+        if(ui64 <= (uint32_t)XXC_MAX_UINT32_VALUE){
+            ui32 = (uint32_t) ui64;
+            do {
+                *--p = (u_char) (ui32 % 10 + '0');
+            } while (ui32 /= 10);
+        }else{
+            do {
+                *--p = (u_char) (ui64 % 10 + '0');
+            } while (ui64 /= 10);
+        }
+    }else if(hexadecimal == 1){
+        do {
+            *--p = hex[(uint32_t) (ui64 & 0xf)];
+        } while (ui64 >>= 4);
+    }else {
+        do {
+            *--p = HEX[(uint32_t) (ui64 & 0xf)];
+        } while (ui64 >>= 4);
+    }
+    len = (temp + XXC_INT64_LEN) - p;
+    while (len++ < width && buf < last) {
+        *buf++ = zero;
+    }
+    len = (temp + XXC_INT64_LEN) - p;
+    if (buf + len > last) {
+        len = last - buf;
+    }
+    //TO DO
+    return ngx_cpymem(buf, p, len);
 }
