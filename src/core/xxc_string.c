@@ -57,9 +57,9 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
     int          d;
     double       f;
     int64_t      i64;
-    uint64_t     ui64;
+    uint64_t     ui64, frac;
     size_t       len, slen;
-    xxc_int_t    width, frac_width, hex, sign;
+    xxc_int_t    width, frac_width, hex, sign, scale, n;
     xxc_str_t   *v;
     while(*fmt && buf < last){
         /**
@@ -74,7 +74,7 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
             zero = (u_char)((*++fmt == '0') ? '0' : ' ');
             /**
              *@param: width         填充宽度,默认是0
-             *@param: frac_width    精度宽度,默认是0
+             *@param: frac_width    精度宽度,默认是0(浮点数)
              *@param; hex  0 = 10进制  1 = 'x'  2 = 'X' 
              *@parma: sign          符号标志位,默认是有符号
              *@parma: slen          设定字符串宽度
@@ -83,6 +83,7 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
             frac_width = 0;
             sign = 1;
             hex = 0;
+            slen = (size_t) -1;
             while(*fmt >= '0' && *fmt <= '9'){
                 width = width * 10 + *fmt++ - '0';
             }
@@ -165,6 +166,33 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
                     }
                     break;
                 case 'f':
+                    f = va_arg(args, double);
+                    if(f < 0){
+                        *buf++ = '-';
+                        f = -f;
+                    }
+                    ui64 = (int64_t) f;
+                    frac = 0;
+                    if (frac_width) {
+                        scale = 1;
+                        for (n = frac_width; n; n--) {
+                            scale *= 10;
+                        }
+                        frac = (uint64_t) ((f - (double) ui64) * scale + 0.5);
+                        if (frac == scale) {
+                            ui64++;
+                            frac = 0;
+                        }
+                    }
+                    buf = xxc_sprintf_num(buf, last, ui64, zero, 0, width);
+                    if (frac_width) {
+                        if (buf < last) {
+                            *buf++ = '.';
+                        }
+                        buf = xxc_sprintf_num(buf, last, frac, '0', 0, frac_width);
+                    }
+                    fmt++;
+                    continue;
                 case 'T':
                     i64 = (int64_t) va_arg(args, time_t);
                     sign = 1;
@@ -184,6 +212,17 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
                     fmt++;
                     continue;
                 case 's':
+                    p = va_arg(args, u_char *);
+                    if (slen == (size_t) -1) {
+                        while (*p && buf < last) {
+                            *buf++ = *p++;
+                        }
+                    } else {
+                        len = xxc_min(((size_t) (last - buf)), slen);
+                        buf = xxc_cpymem(buf, p, len);
+                    }
+                    fmt++;  
+                    continue;
                 case 'Z':
                     *buf++ = '\0';
                     fmt++;

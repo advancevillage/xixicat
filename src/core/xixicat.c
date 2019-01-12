@@ -6,7 +6,7 @@
 #include <xixicat.h>
 
 int xxc_cdecl main(int argc, char* argv[]) {
-    xxc_int_t  t = -12;
+    xxc_int_t  t = 112;
     printf("n = %ld\n", t);
     printf("xixicat's version is %s\n", xixicat_version);
 
@@ -14,6 +14,7 @@ int xxc_cdecl main(int argc, char* argv[]) {
     printf("T lower is %c\n", xxc_toupper('T'));
     xxc_str_t src = xxc_string("hello xixicat!");   
     u_char *dst = (u_char*)malloc(sizeof(u_char) * 20);
+    memset(dst, 0, 20);
     printf("src data is %s\n len is %ld\n", src.data,src.len);
     xxc_strup(dst, src.data, src.len);
     printf("dst is %s\n", dst);
@@ -24,7 +25,13 @@ int xxc_cdecl main(int argc, char* argv[]) {
     u_char buf[100];
     xxc_sprintf(buf, "%V", &src);
     printf("%s\n", buf);
-    xxc_sprintf(buf,"xxc_int_t is %09i", t);
+    xxc_sprintf(buf,"xxc_int_t is %i", t);
+    printf("%s\n", buf);
+    memset(buf, 0, sizeof(buf));
+    double f = 100.0001;
+    xxc_sprintf(buf,"f is %.4f", f);
+    printf("%s\n", buf);
+    xxc_sprintf(buf, "%s", dst);
     printf("%s\n", buf);
     return XXC_OK;
 }
