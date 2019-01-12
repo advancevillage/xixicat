@@ -69,6 +69,6 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args);
  *@param: hexadecimal
  *@param: width
  */
-static u_char* xxc_sprintf_num(u_char *buf, u_char *last, uint64_t ui64, u_char zero, xxc_uint_t hexadecimal, ngx_uint_t width);
+static u_char* xxc_sprintf_num(u_char *buf, u_char *last, uint64_t ui64, u_char zero, xxc_uint_t hexadecimal, xxc_uint_t width);
 
 #endif /* _XXC_STRING_H_INCLUDED_ */

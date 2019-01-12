@@ -75,13 +75,14 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
             /**
              *@param: width         填充宽度,默认是0
              *@param: frac_width    精度宽度,默认是0
-             *@param; hex  1 = 'x'  2 = 'X'
+             *@param; hex  0 = 10进制  1 = 'x'  2 = 'X' 
              *@parma: sign          符号标志位,默认是有符号
              *@parma: slen          设定字符串宽度
              */
             width = 0;
             frac_width = 0;
             sign = 1;
+            hex = 0;
             while(*fmt >= '0' && *fmt <= '9'){
                 width = width * 10 + *fmt++ - '0';
             }
@@ -203,24 +204,24 @@ u_char* xxc_vslprintf(u_char *buf, u_char *last, const char *fmt, va_list args){
                 default:
                     *buf++ = *fmt++;
             }
+            if (sign) {
+                if (i64 < 0) {
+                    *buf++ = '-';
+                    ui64 = (uint64_t) -i64;
+                } else {
+                    ui64 = (uint64_t) i64;
+                }
+            }
+            buf = xxc_sprintf_num(buf, last, ui64, zero, hex, width);
+            fmt++;
         }else{
             *buf++ = *fmt++;
         }
-        if (sign) {
-            if (i64 < 0) {
-                *buf++ = '-';
-                ui64 = (uint64_t) -i64;
-            } else {
-                ui64 = (uint64_t) i64;
-            }
-        }
-        buf = xxc_sprintf_num(buf, last, ui64, zero, hex, width);
-        fmt++;
     }
     return buf;
 }
 
-static u_char* xxc_sprintf_num(u_char *buf, u_char *last, uint64_t ui64, u_char zero, xxc_uint_t hexadecimal, ngx_uint_t width){
+static u_char* xxc_sprintf_num(u_char *buf, u_char *last, uint64_t ui64, u_char zero, xxc_uint_t hexadecimal, xxc_uint_t width){
     /**@breif: 64bit */
     u_char         *p, temp[XXC_INT64_LEN+1];
     size_t          len;
@@ -257,5 +258,5 @@ static u_char* xxc_sprintf_num(u_char *buf, u_char *last, uint64_t ui64, u_char 
         len = last - buf;
     }
     //TO DO
-    return ngx_cpymem(buf, p, len);
+    return xxc_cpymem(buf, p, len);
 }
