@@ -6,7 +6,7 @@
 #include <xixicat.h>
 
 int xxc_cdecl main(int argc, char* argv[]) {
-    xxc_int_t  t = 12;
+    xxc_int_t  t = -12;
     printf("n = %ld\n", t);
     printf("xixicat's version is %s\n", xixicat_version);
 
