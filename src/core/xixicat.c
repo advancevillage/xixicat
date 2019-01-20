@@ -31,7 +31,9 @@ int xxc_cdecl main(int argc, char* argv[]) {
     double f = 100.0001;
     xxc_sprintf(buf,"f is %.4f", f);
     printf("%s\n", buf);
-    xxc_sprintf(buf, "%s", dst);
+    xxc_sprintf(buf, "%*s",5,dst);
     printf("%s\n", buf);
+    //time
+    xxc_time_init();
     return XXC_OK;
 }
