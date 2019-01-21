@@ -10,6 +10,7 @@
 #define XXC_ERROR      -1
 
 #include <xxc_string.h>
+#include <xxc_time.h>
 #include <xxc_times.h>
 
 /**

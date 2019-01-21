@@ -31,4 +31,11 @@ void xxc_time_init(void);
  */
 void xxc_time_update(void);
 
+/**
+ *@breif:  时间转换
+ *@param:  t  sec
+ *@param:  tp 
+ */
+void xxc_gmtime(time_t t, xxc_tm_t *tp);
+
 #endif /* _XXC_TIMES_H_INCLUDED_ */
