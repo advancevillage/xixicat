@@ -10,26 +10,17 @@
 typedef struct xxc_time_s xxc_time_t;
 
 struct xxc_time_s {
+    /* 格林威治时间1970年1月1日凌晨0点0分0秒到当前时间的秒数 */
     time_t      sec;
+    /* sec成员只能精确到秒，msec则是当前时间相对于sec的毫秒偏移量 */
     xxc_uint_t  msec;
+    /* 时区 */
     xxc_int_t   gmtoff;
 };
-
-/**
- *@breif: 定义全局变量
- */
-extern volatile xxc_str_t    xxc_log_iso8601;
-extern volatile xxc_time_t  *xxc_cached_time;
-
-/**
- *@breif: 时间初始化
- */
-void xxc_time_init(void);
-
 /**
  *@brief: 更新时间(核心)
  */
-void xxc_time_update(void);
+void xxc_time(xxc_str_t  *t);
 
 /**
  *@breif:  时间转换
@@ -37,5 +28,9 @@ void xxc_time_update(void);
  *@param:  tp 
  */
 void xxc_gmtime(time_t t, xxc_tm_t *tp);
+
+/**
+ *@brief: 获取当前时间
+ */
 
 #endif /* _XXC_TIMES_H_INCLUDED_ */

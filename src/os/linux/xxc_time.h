@@ -25,6 +25,4 @@ typedef struct tm           xxc_tm_t;
 
 #define xxc_gettimeofday(tp)  (void) gettimeofday(tp, NULL);
 
-
-
 #endif /* _XXC_TIME_H_INCLUDED_ */

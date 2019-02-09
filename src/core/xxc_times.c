@@ -4,63 +4,29 @@
 #include <xxc_config.h>
 #include <xxc_core.h>
 
-#define XXC_TIME_SLOTS   64
+static u_char        gmt_time[sizeof("Mon, 28 Sep 1970 06:00:00 GMT")];
 
-static xxc_uint_t    slot;
-static u_char        log_iso8601[XXC_TIME_SLOTS][sizeof("1970-09-28T12:00:00+0600")];
+static char  *week[] = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+static char  *months[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
-static      xxc_time_t        cached_time[XXC_TIME_SLOTS];
-volatile    xxc_time_t       *xxc_cached_time;
-volatile    xxc_str_t         xxc_log_iso8601;
-
-void xxc_time_init(void) {
-    xxc_log_iso8601.len = sizeof("1970-09-28T12:00:00+0600") - 1;
-    xxc_cached_time = &cached_time[0];
-    xxc_time_update();
-}
-
-void xxc_time_update(void) {
+void xxc_time(xxc_str_t  *t) {
     u_char          *p;
-    xxc_tm_t         tm, gmt;
+    xxc_tm_t         gmt;
     time_t           sec;
     xxc_uint_t       msec;
-    xxc_time_t      *tp;
     struct timeval   tv;
 
+    t->len = sizeof("Mon, 28 Sep 1970 06:00:00 GMT") - 1;
     xxc_gettimeofday(&tv);
     sec = tv.tv_sec;
     msec = tv.tv_usec / 1000;
-    
-    tp = &cached_time[slot];
-
-    if (tp->sec == sec) {
-        tp->msec = msec;
-        //xxc_unlock(&xxc_time_lock);
-        return;
-    }
-
-    if (slot == XXC_TIME_SLOTS - 1) {
-        slot = 0;
-    } else {
-        slot++;
-    }
-
-    tp = &cached_time[slot];
-    tp->sec = sec;
-    tp->msec = msec;
-
     xxc_gmtime(sec, &gmt);
-
-    p = &log_iso8601[slot][0];
-
-    (void) xxc_sprintf(p, "%4d-%02d-%02dT%02d:%02d:%02d%c%02i%02i",
-                       tm.xxc_tm_year, tm.xxc_tm_mon,
-                       tm.xxc_tm_mday, tm.xxc_tm_hour,
-                       tm.xxc_tm_min, tm.xxc_tm_sec,
-                       tp->gmtoff < 0 ? '-' : '+',
-                       xxc_abs(tp->gmtoff / 60), xxc_abs(tp->gmtoff % 60));
-  
-    xxc_log_iso8601.data = p;
+    p = gmt_time;
+   (void) xxc_sprintf(p, "%s, %02d %s %4d %02d:%02d:%02d GMT",
+                      week[gmt.xxc_tm_wday], gmt.xxc_tm_mday,
+                      months[gmt.xxc_tm_mon - 1], gmt.xxc_tm_year,
+                      gmt.xxc_tm_hour, gmt.xxc_tm_min, gmt.xxc_tm_sec);
+    t->data = p;
 }
 
 void xxc_gmtime(time_t t, xxc_tm_t *tp) {
