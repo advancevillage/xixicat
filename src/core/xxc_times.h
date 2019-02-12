@@ -18,9 +18,11 @@ struct xxc_time_s {
     xxc_int_t   gmtoff;
 };
 /**
- *@brief: 更新时间(核心)
+ *@brief: 获取当前GMT时间
+ *@param: t 当前时间字符串
+ *@retval: 时间戳
  */
-void xxc_time(xxc_str_t  *t);
+time_t xxc_time(xxc_str_t  *t);
 
 /**
  *@breif:  时间转换

@@ -33,6 +33,6 @@ int xxc_cdecl main(int argc, char* argv[]) {
     printf("%s\n", buf);
     xxc_sprintf(buf, "%*s",5,dst);
     printf("%s\n", buf);
-    xxc_time(&richard);
+    time_t sec = xxc_time(&richard);
     return XXC_OK;
 }

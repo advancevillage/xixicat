@@ -9,14 +9,14 @@ static u_char        gmt_time[sizeof("Mon, 28 Sep 1970 06:00:00 GMT")];
 static char  *week[] = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 static char  *months[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
-void xxc_time(xxc_str_t  *t) {
+time_t xxc_time(xxc_str_t  *t) {
     u_char          *p;
     xxc_tm_t         gmt;
     time_t           sec;
     xxc_uint_t       msec;
     struct timeval   tv;
 
-    t->len = sizeof("Mon, 28 Sep 1970 06:00:00 GMT") - 1;
+    t->len = sizeof("Thu, 01 Jan 1970 00:00:00 GMT") - 1;
     xxc_gettimeofday(&tv);
     sec = tv.tv_sec;
     msec = tv.tv_usec / 1000;
@@ -27,6 +27,7 @@ void xxc_time(xxc_str_t  *t) {
                       months[gmt.xxc_tm_mon - 1], gmt.xxc_tm_year,
                       gmt.xxc_tm_hour, gmt.xxc_tm_min, gmt.xxc_tm_sec);
     t->data = p;
+    return sec;
 }
 
 void xxc_gmtime(time_t t, xxc_tm_t *tp) {
