@@ -12,6 +12,7 @@
 #include <xxc_string.h>
 #include <xxc_time.h>
 #include <xxc_times.h>
+#include <xxc_log.h>
 
 /**
  *@brief: 数值基本处理算法

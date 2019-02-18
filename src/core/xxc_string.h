@@ -24,6 +24,7 @@ struct xxc_str_s {
 
 #define xxc_tolower(c)      (u_char) ((c >= 'A' && c <= 'Z') ? (c | 0x20) : c)
 #define xxc_toupper(c)      (u_char) ((c >= 'a' && c <= 'z') ? (c & ~0x20) : c)
+#define xxc_strlen(s)       strlen((const char *) s)
 
 /**
  *@brief: 将字符串前n个字符转成小写字母
