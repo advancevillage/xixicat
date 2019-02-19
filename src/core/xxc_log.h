@@ -33,6 +33,8 @@
 #define XXC_INVALID_FILE         -1
 #define XXC_FILE_ERROR           -1
 
+#define XXC_MAX_ERROR_STR         2048
+
 typedef int                     xxc_fd_t;
 typedef struct xxc_open_file_s   xxc_open_file_t;  
 typedef struct xxc_log_s        xxc_log_t;
@@ -51,6 +53,33 @@ struct xxc_log_s {
 
 #define xxc_open_file(name, mode, create, access)   open((const char *) name, mode|create, access)
 
-xxc_log_t*  xxc_log_init(xxc_str_t *prefix);
+/**
+ *@brief: 初始化日志文件并尝试
+ *@param: name 日志文件路径
+ *@retval: 返回xxx_log_t指针
+ */
+xxc_log_t*  xxc_log_init(xxc_str_t *name);
+
+/**
+ *@brief: 标准错误输出
+ *@param:
+ */
+void xxc_cdecl xxc_log_stderr(xxc_err_t err, const char *fmt, ...);
+
+/**
+ *@breif: 封装系统write系统调用
+ *@param: fd 文件描述符
+ *@param: buf 数据指针
+ *@param: n 前n个字符
+ *@retval: 
+ */
+static xxc_inline ssize_t xxc_write_fd(xxc_fd_t fd, void *buf, size_t n) {
+    return write(fd, buf, n);
+}
+
+#define xxc_write_console        xxc_write_fd
+
+#define xxc_stdout               STDOUT_FILENO
+#define xxc_stderr               STDERR_FILENO
 
 #endif /* _XXC_LOG_H_INCLUDED_ */

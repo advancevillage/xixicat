@@ -6,7 +6,7 @@
 ### build
  * clang  src/core/xixicat.c -I src/core/ -I src/os/linux  -o src/test/test
  * clang  src/core/xixicat.c src/core/xxc_string.c -I src/core/ -I src/os/linux  -o src/test/test -g
- * clang  src/core/xixicat.c src/core/xxc_string.c src/core/xxc_times.c -I src/core/ -I src/os/linux  -o src/test/test -g
+ * clang  src/core/xixicat.c src/core/xxc_string.c src/core/xxc_times.c src/core/xxc_log.c -I src/core/ -I src/os/linux  -o src/test/test -g
 
 ### code style
  * Conditionals and Loops

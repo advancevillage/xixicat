@@ -8,6 +8,7 @@
 #include <xxc_linux_config.h>
 
 #define xxc_cdecl
+#define xxc_inline      inline
 
 /**@breif: 为了保证平台的通用性 */
 typedef intptr_t        xxc_int_t;

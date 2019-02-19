@@ -9,10 +9,12 @@
 #define XXC_OK          0   
 #define XXC_ERROR      -1
 
+#include <xxc_errno.h>
 #include <xxc_string.h>
 #include <xxc_time.h>
 #include <xxc_times.h>
 #include <xxc_log.h>
+
 
 /**
  *@brief: 数值基本处理算法

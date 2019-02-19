@@ -34,7 +34,7 @@ int xxc_cdecl main(int argc, char* argv[]) {
     xxc_sprintf(buf, "%*s",5,dst);
     printf("%s\n", buf);
     time_t sec = xxc_time(&richard);
-    xxc_str_t   file = xxc_string("xixicat.log");
+    xxc_str_t   file = xxc_string("./src/test/xixicat.log");
     xxc_log_t   *log;
     log = xxc_log_init(&file);
     return XXC_OK;
