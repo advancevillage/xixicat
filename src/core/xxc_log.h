@@ -40,20 +40,4 @@ xxc_log_t*  xxc_log_init(xxc_str_t *name);
  */
 void xxc_cdecl xxc_log_stderr(xxc_err_t err, const char *fmt, ...);
 
-/**
- *@breif: 封装系统write系统调用
- *@param: fd 文件描述符
- *@param: buf 数据指针
- *@param: n 前n个字符
- *@retval: 
- */
-static xxc_inline ssize_t xxc_write_fd(xxc_fd_t fd, void *buf, size_t n) {
-    return write(fd, buf, n);
-}
-
-#define xxc_write_console        xxc_write_fd
-
-#define xxc_stdout               STDOUT_FILENO
-#define xxc_stderr               STDERR_FILENO
-
 #endif /* _XXC_LOG_H_INCLUDED_ */
