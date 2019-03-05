@@ -23,5 +23,15 @@ typedef     cJSON       xxc_json_t;
  */
 #define xxc_json_create_string_array(strings,count)      cJSON_CreateStringArray(strings, count);
 
+#define xxc_json_parse(str)                              cJSON_Parse(str)
+
+/**
+ *@breif: 解析JSON文件
+ *@param: config_file 配置文件路径
+ *@param: *log
+ *@retval: xxc_json_t*
+ */
+xxc_json_t* xxc_json_parse_file(u_char* file, xxc_log_t* log);
+
 
 #endif /* _XXC_JSON_H_INCLUDED_ */

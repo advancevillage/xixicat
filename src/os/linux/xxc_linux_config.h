@@ -18,6 +18,8 @@
 #include <time.h>
 #include <stdint.h>
 
+#include <sys/stat.h> 
+
 #include <fcntl.h>
 
 #endif /* _XXC_LINUX_CONFIG_H_INCLUDED_ */

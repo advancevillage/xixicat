@@ -37,10 +37,13 @@ static xxc_inline ssize_t xxc_write_fd(xxc_fd_t fd, void *buf, size_t n) {
     return write(fd, buf, n);
 }
 
-#define xxc_write_console        xxc_write_fd
+#define xxc_write_console               xxc_write_fd
+#define xxc_fd_info(fd, sb)             fstat(fd, sb)
+#define xxc_read_file(fd, buf, n)        read(fd,buf,n)
 
 #define xxc_stdout               STDOUT_FILENO
 #define xxc_stderr               STDERR_FILENO
+
 
 
 #endif /* _XXC_FILES_H_INCLUDED_ */

@@ -8,6 +8,7 @@
 #include <xxc_core.h>
 
 typedef int                     xxc_fd_t;
+typedef struct stat             xxc_file_info_t;
 typedef struct xxc_open_file_s   xxc_open_file_t;  
 
 
