@@ -116,10 +116,10 @@ int xxc_cdecl main(int argc, char* argv[]) {
         "Saturday"
     };
     root = xxc_json_create_string_array(strings, 7);
-    print_preallocated(root);
+    // print_preallocated(root);
 
     u_char *cf = (u_char*)"./src/test/xixicat.json";
-
-    xxc_json_parse_file(cf, log);
+    xxc_json_t *config = xxc_json_parse_file(cf, log);
+    print_preallocated(config);
     return XXC_OK;
 }

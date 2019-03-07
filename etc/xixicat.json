@@ -1,0 +1,39 @@
+{
+    "mysql":{
+        "master": {
+            "host": "127.0.0.1",
+            "port": 3306,
+            "user": "test",
+            "pswd": "test"
+        },
+        "slaves": [
+            {
+                "host": "127.0.0.1",
+                "port": 3306,
+                "user": "test",
+                "pswd": "test"
+            },{
+                "host": "127.0.0.1",
+                "port": 3306,
+                "user": "test",
+                "pswd": "test"
+            }
+        ]
+    },
+    "redis":{
+        "master":{
+            "host": "127.0.0.1",
+            "port": 6379,
+            "user": "user",
+            "pswd": "pswd"
+        },
+        "slaves":[
+            {
+                "host": "127.0.0.1",
+                "port": 6379,
+                "user": "user01",
+                "pswd": "pswd01"
+            }
+        ]
+    }
+}
